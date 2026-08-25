@@ -87,7 +87,7 @@
     <p>product_batch_update_basic_43_xxxx.xlsx</p>
   </div>
   <div class="hint-box">
-    自動篩選原始貨號含「LIVE」或商品名稱含「直播｜」的消費者商品
+    自動篩選原始貨號含「LIVE/CHA」或商品名稱含「直播｜/連線｜」的消費者商品
   </div>
   <div class="error-msg" id="errMsg"></div>
   <div class="loading" id="loading">⏳ 讀取中，請稍候…</div>
@@ -127,7 +127,7 @@ const MSG_TEMPLATE = `您好～～這邊是您的 iOPENMALL 專屬下單頁面�
 ‼️務必點閱此網站‼️ 
 ✅下單即代表同意此須知
 （網頁純文字檔無毒請放心點選）
-https://winwing12360.github.io/Igtool/notice.html
+https://senbeistore.github.io/Igtool/notice.html
 
 📦商品有任何問題「收貨日」起算三天內請立即提出！！！`;
 
@@ -186,12 +186,12 @@ function handleFile(file) {
 
         if (!prodNo.startsWith('P') || !rawName) return;
 
-        const isLive = origNo.includes('LIVE');
-        const isDirect = rawName.includes('直播');
+        const isLive = origNo.includes('LIVE') || origNo.includes('CHA');
+        const isDirect = rawName.includes('直播') || rawName.includes('連線');
         if (!isLive && !isDirect) return;
 
-        // 跳過子商品（LIVE0001-B、LIVE0001-C）
-        if (/LIVE\d+-[B-Z]/.test(origNo)) return;
+        // 跳過子商品（LIVE0001-B、LIVE0001-C 或 CHA0001-B）
+        if (/LIVE\d+-[B-Z]/.test(origNo) || /CHA\d+-[B-Z]/.test(origNo)) return;
 
         // 從「直播｜（username）」提取帳號
         let username = rawName;
